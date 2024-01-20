@@ -19,8 +19,7 @@ public class Controller {
 
     @GetMapping("/test")
     public ResponseEntity<?> test() throws Exception {
-        service.fetchComponentNames();
-        return new ResponseEntity<>(null, HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(service.fetchComponentNames(), HttpStatusCode.valueOf(200));
     }
 
 }
