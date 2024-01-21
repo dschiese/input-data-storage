@@ -92,8 +92,8 @@ public class Service {
         this.componentName2PathToLogfile.forEach((key, value) -> {
             boolean isFileEmpty = checkFileContent(value);
             if (!isFileEmpty) {
-                logger.info("File is not empty");
-                //insertDataToTriplestore(value);
+                logger.info("File is not empty, path: {}", value);
+                insertDataToTriplestore(value);
             }
         });
     }
@@ -102,16 +102,19 @@ public class Service {
         try {
             reader = new BufferedReader(new FileReader(path + "log.txt"));
             String line = reader.readLine(); // read first line
-            return line.isEmpty(); // check if empty
+            if(line == null)
+                return true;
+            else
+                return line.isEmpty();
         } catch (IOException e) {
-            logger.info("No log file for path {}", path);
+
         }
         return true;
     }
 
     public void insertDataToTriplestore(String path) {
         List<String> queries = selectQueriesFromFile(path);
-        queries.forEach(item -> logger.info("Current query: {}", item));
+        queries.forEach(item -> logger.info("Current query for path {}  :   {}",path, item));
     }
 
     public List<String> selectQueriesFromFile(String path) {
@@ -121,12 +124,14 @@ public class Service {
             reader = new BufferedReader(new FileReader(path + "log.txt"));
             String line = reader.readLine(); // read first line
             while (line != null) {
+                logger.info(line);
                 if (line.startsWith("-------------------------------------")) {
                     queries.add(temp);
                     temp = "";
                 } else {
                     temp = temp.concat(line + "\n");
                 }
+                line = reader.readLine();
             }
             deleteFileContent(path);
             return queries;
@@ -145,6 +150,11 @@ public class Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveQueriesToTriplestore() {
+        String query = "";
+        String graph = "";
     }
 
 
