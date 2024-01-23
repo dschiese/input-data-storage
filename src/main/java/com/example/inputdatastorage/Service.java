@@ -1,11 +1,16 @@
 package com.example.inputdatastorage;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.ResourceUtils;
+import virtuoso.jena.driver.VirtModel;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -29,6 +34,13 @@ public class Service {
     private final Logger logger = LoggerFactory.getLogger(Service.class);
     private final String QANARY_DIRECTORY = "Qanary-question-answering-components/";
     private BufferedReader reader;
+ //   @Value("${virtuoso.triplestore.endpoint}")
+    private String VIRTUOSO_TRIPLESTORE_ENDPOINT;
+  //  @Value("${virtuoso.triplestore.username}")
+    private String VIRTUOSO_TRIPLESTORE_USERNAME;
+  //  @Value("${virtuoso.triplestore.password}")
+    private String VIRTUOSO_TRIPLESTORE_PASSWORD;
+    private Model model = ModelFactory.createDefaultModel();
 
     public List<String> fetchDirectoryNames() throws FileNotFoundException {
         File folder = new File(QANARY_DIRECTORY);
@@ -114,7 +126,7 @@ public class Service {
 
     public void insertDataToTriplestore(String path) {
         List<String> queries = selectQueriesFromFile(path);
-        queries.forEach(item -> logger.info("Current query for path {}  :   {}",path, item));
+        queries.forEach(item -> insertDataToTriplestore(new QueriesPojo(item)));
     }
 
     public List<String> selectQueriesFromFile(String path) {
@@ -157,6 +169,19 @@ public class Service {
         String graph = "";
     }
 
+
+    public void insertDataToTriplestore(QueriesPojo queryPojo) {
+        List<Statement> statements = createStatementsFromQueryPojo(queryPojo); // resolve
+        model.add(statements);
+        VirtModel virtModel = VirtModel.openDatabaseModel("urn:qanary:" + "GRAPH_ID", VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
+        virtModel.add(model);
+        virtModel.close();
+        model.remove(statements);
+    }
+
+    public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries) {
+        return null;
+    }
 
 
 }
