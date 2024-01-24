@@ -11,6 +11,7 @@ public class QueriesPojo {
 
     private String graphId;
     private String query;
+    private String component;
     private final Logger logger = LoggerFactory.getLogger(QueriesPojo.class);
 
     public QueriesPojo(String item) {
@@ -43,5 +44,9 @@ public class QueriesPojo {
 
     public String getQuery() {
         return query;
+    }
+
+    public String getComponent() {
+        return component;
     }
 }

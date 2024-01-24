@@ -1,8 +1,6 @@
 package com.example.inputdatastorage;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,15 +22,26 @@ import java.util.stream.Stream;
 @EnableScheduling
 public class Service {
 
-    Service() throws Exception {
+    public Service() throws Exception {
         fetchComponentNames();
-        logger.info("Current Map: {}", this.componentName2PathToLogfile);
+        model.setNsPrefix("ex", EXAMPLE_NAMESPACE);
+        this.hasInputQuery = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "hasInputQuery");
+        this.usedComponent = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "usedComponent");
+
     }
 
     private Map<String, String> componentName2PathToLogfile = new HashMap<>();
     private String dirToQanaryComponents = "";
     private final Logger logger = LoggerFactory.getLogger(Service.class);
     private final String QANARY_DIRECTORY = "Qanary-question-answering-components/";
+
+    // PROPERTIES
+    private Property usedComponent;
+    private Property hasInputQuery;
+    // NAMESPACES
+    private final String EXAMPLE_NAMESPACE = "http://example#";
+
+
     private BufferedReader reader;
  //   @Value("${virtuoso.triplestore.endpoint}")
     private String VIRTUOSO_TRIPLESTORE_ENDPOINT;
@@ -41,6 +50,7 @@ public class Service {
   //  @Value("${virtuoso.triplestore.password}")
     private String VIRTUOSO_TRIPLESTORE_PASSWORD;
     private Model model = ModelFactory.createDefaultModel();
+
 
     public List<String> fetchDirectoryNames() throws FileNotFoundException {
         File folder = new File(QANARY_DIRECTORY);
@@ -173,14 +183,26 @@ public class Service {
     public void insertDataToTriplestore(QueriesPojo queryPojo) {
         List<Statement> statements = createStatementsFromQueryPojo(queryPojo); // resolve
         model.add(statements);
-        VirtModel virtModel = VirtModel.openDatabaseModel("urn:qanary:" + "GRAPH_ID", VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
+        VirtModel virtModel = VirtModel.openDatabaseModel("urn:graph:" + "GRAPH_ID", VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
         virtModel.add(model);
         virtModel.close();
         model.remove(statements);
     }
 
     public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries) {
-        return null;
+        List<Statement> statements = new ArrayList<>();
+        Resource graphId = ResourceFactory.createResource("urn:graph:" + queries.getQuery());
+        statements.add(ResourceFactory.createStatement(
+                graphId,
+                this.usedComponent,
+                ResourceFactory.createResource("urn:qanary:" + queries.getComponent())
+        ));
+        statements.add(ResourceFactory.createStatement(
+                graphId,
+                this.hasInputQuery,
+                ResourceFactory.createStringLiteral(queries.getQuery())
+        ));
+        return statements;
     }
 
 
