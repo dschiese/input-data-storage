@@ -1,0 +1,88 @@
+PREFIX qa: <http://www.wdaqua.eu/qa#>
+PREFIX oa: <http://www.w3.org/ns/openannotation/core/>
+SELECT ?uri 
+FROM <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> { 
+  ?q a qa:Question .
+  ?a a qa:AnnotationOfTextRepresentation . 
+  ?a oa:hasTarget ?q .
+  ?a oa:hasBody ?uri .
+}
+-------------------------------------
+prefix qa: <http://www.wdaqua.eu/qa#>
+prefix oa: <http://www.w3.org/ns/openannotation/core/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+INSERT {
+GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+    ?a a qa:AnnotationOfInstance .
+    ?a oa:hasTarget [
+        a    oa:SpecificResource;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSelector  [
+            a oa:TextPositionSelector ;
+            oa:start "0"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
+            oa:end  "4"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>
+        ]
+    ] .
+    ?a oa:hasBody <http://dbpedia.org/resource/String_theory> ;
+    oa:annotatedBy <urn:qanary:NED-DBpediaSpotlight> ;
+    oa:annotatedAt ?time ;
+    qa:score 0.9347568085631697 .
+}}
+WHERE {
+    BIND (IRI(CONCAT("urn:qanary:annotation:instance:", STR(RAND()))) AS ?a) .
+    BIND (now() as ?time)
+}
+-------------------------------------
+prefix qa: <http://www.wdaqua.eu/qa#>
+prefix oa: <http://www.w3.org/ns/openannotation/core/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+INSERT {
+GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+    ?a a qa:AnnotationOfInstance .
+    ?a oa:hasTarget [
+        a    oa:SpecificResource;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSelector  [
+            a oa:TextPositionSelector ;
+            oa:start "12"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
+            oa:end  "16"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>
+        ]
+    ] .
+    ?a oa:hasBody <http://dbpedia.org/resource/Real_number> ;
+    oa:annotatedBy <urn:qanary:NED-DBpediaSpotlight> ;
+    oa:annotatedAt ?time ;
+    qa:score 0.977747974809564 .
+}}
+WHERE {
+    BIND (IRI(CONCAT("urn:qanary:annotation:instance:", STR(RAND()))) AS ?a) .
+    BIND (now() as ?time)
+}
+-------------------------------------
+prefix qa: <http://www.wdaqua.eu/qa#>
+prefix oa: <http://www.w3.org/ns/openannotation/core/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+INSERT {
+GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+    ?a a qa:AnnotationOfInstance .
+    ?a oa:hasTarget [
+        a    oa:SpecificResource;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSelector  [
+            a oa:TextPositionSelector ;
+            oa:start "25"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
+            oa:end  "31"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>
+        ]
+    ] .
+    ?a oa:hasBody <http://dbpedia.org/resource/Batman> ;
+    oa:annotatedBy <urn:qanary:NED-DBpediaSpotlight> ;
+    oa:annotatedAt ?time ;
+    qa:score 0.9999536254316278 .
+}}
+WHERE {
+    BIND (IRI(CONCAT("urn:qanary:annotation:instance:", STR(RAND()))) AS ?a) .
+    BIND (now() as ?time)
+}
+-------------------------------------
