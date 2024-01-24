@@ -1,7 +1,7 @@
 PREFIX qa: <http://www.wdaqua.eu/qa#>
 PREFIX oa: <http://www.w3.org/ns/openannotation/core/>
 SELECT ?uri 
-FROM <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> { 
+FROM <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e5b> {
   ?q a qa:Question .
   ?a a qa:AnnotationOfTextRepresentation . 
   ?a oa:hasTarget ?q .
@@ -13,7 +13,7 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e5b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;
@@ -39,7 +39,7 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e5b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;
@@ -65,7 +65,7 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e5b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;

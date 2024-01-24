@@ -14,29 +14,25 @@ public class QueriesPojo {
     private String component;
     private final Logger logger = LoggerFactory.getLogger(QueriesPojo.class);
 
-    public QueriesPojo(String item) {
+    public QueriesPojo(String item) throws IOException {
         this.initObject(item);
     }
 
-    protected void initObject(String item) {
+    protected void initObject(String item) throws IOException {
         this.query = item;
-        try {
-            this.graphId = getGraphFromItem(item);
-        } catch(Exception e) {
-            logger.error("Error while creating QueryPojo object with stack-trace: {}", e);
-        }
+        this.graphId = getGraphFromItem(item);
     }
 
     protected String getGraphFromItem(String item) throws IOException {
         logger.info("ITEM: {}", item);
         BufferedReader reader = new BufferedReader(new StringReader(item));
         String line = reader.readLine();
-        while(!line.startsWith("GRAPH <")) {
+        while(line != null && !line.startsWith("FROM <")) {
             line = reader.readLine();
         }
-        if(line.startsWith("GRAPH <"))
-            return line.replace("GRAPH <", "").replace("> {", "");
-        return null;
+        if(line != null && line.startsWith("FROM <"))
+            return line.replace("FROM <", "").replace("> {", "");
+        throw new RuntimeException("Couldn't find a FROM statement in the passed query");
     }
 
     public String getGraphId() {

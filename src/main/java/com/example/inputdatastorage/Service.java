@@ -27,7 +27,6 @@ public class Service {
         model.setNsPrefix("ex", EXAMPLE_NAMESPACE);
         this.hasInputQuery = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "hasInputQuery");
         this.usedComponent = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "usedComponent");
-
     }
 
     private Map<String, String> componentName2PathToLogfile = new HashMap<>();
@@ -136,7 +135,13 @@ public class Service {
 
     public void insertDataToTriplestore(String path, String component) {
         List<String> queries = selectQueriesFromFile(path);
-        queries.forEach(item -> insertDataToTriplestore(new QueriesPojo(item), component));
+        queries.forEach(item -> {
+            try {
+            insertDataToTriplestore(new QueriesPojo(item), component);
+        } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        });
     }
 
     public List<String> selectQueriesFromFile(String path) {
@@ -158,6 +163,7 @@ public class Service {
             deleteFileContent(path);
             return queries;
         } catch (Exception e) {
+            logger.error("debug");
             e.printStackTrace();
         }
         return null;
@@ -174,16 +180,10 @@ public class Service {
         }
     }
 
-    public void saveQueriesToTriplestore() {
-        String query = "";
-        String graph = "";
-    }
-
-
     public void insertDataToTriplestore(QueriesPojo queryPojo, String component) {
         List<Statement> statements = createStatementsFromQueryPojo(queryPojo, component); // resolve
         model.add(statements);
-        VirtModel virtModel = VirtModel.openDatabaseModel("urn:graph:" + queryPojo.getGraphId(), VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
+        VirtModel virtModel = VirtModel.openDatabaseModel(queryPojo.getGraphId(), VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
         virtModel.add(model);
         virtModel.close();
         model.remove(statements);
