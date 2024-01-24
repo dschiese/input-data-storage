@@ -43,11 +43,11 @@ public class Service {
 
 
     private BufferedReader reader;
- //   @Value("${virtuoso.triplestore.endpoint}")
+    @Value("${virtuoso.triplestore.endpoint}")
     private String VIRTUOSO_TRIPLESTORE_ENDPOINT;
-  //  @Value("${virtuoso.triplestore.username}")
+    @Value("${virtuoso.triplestore.username}")
     private String VIRTUOSO_TRIPLESTORE_USERNAME;
-  //  @Value("${virtuoso.triplestore.password}")
+    @Value("${virtuoso.triplestore.password}")
     private String VIRTUOSO_TRIPLESTORE_PASSWORD;
     private Model model = ModelFactory.createDefaultModel();
 
@@ -115,7 +115,7 @@ public class Service {
             boolean isFileEmpty = checkFileContent(value);
             if (!isFileEmpty) {
                 logger.info("File is not empty, path: {}", value);
-                insertDataToTriplestore(value);
+                insertDataToTriplestore(value, key);
             }
         });
     }
@@ -134,9 +134,9 @@ public class Service {
         return true;
     }
 
-    public void insertDataToTriplestore(String path) {
+    public void insertDataToTriplestore(String path, String component) {
         List<String> queries = selectQueriesFromFile(path);
-        queries.forEach(item -> insertDataToTriplestore(new QueriesPojo(item)));
+        queries.forEach(item -> insertDataToTriplestore(new QueriesPojo(item), component));
     }
 
     public List<String> selectQueriesFromFile(String path) {
@@ -180,28 +180,29 @@ public class Service {
     }
 
 
-    public void insertDataToTriplestore(QueriesPojo queryPojo) {
-        List<Statement> statements = createStatementsFromQueryPojo(queryPojo); // resolve
+    public void insertDataToTriplestore(QueriesPojo queryPojo, String component) {
+        List<Statement> statements = createStatementsFromQueryPojo(queryPojo, component); // resolve
         model.add(statements);
-        VirtModel virtModel = VirtModel.openDatabaseModel("urn:graph:" + "GRAPH_ID", VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
+        VirtModel virtModel = VirtModel.openDatabaseModel("urn:graph:" + queryPojo.getGraphId(), VIRTUOSO_TRIPLESTORE_ENDPOINT, VIRTUOSO_TRIPLESTORE_USERNAME, VIRTUOSO_TRIPLESTORE_PASSWORD);
         virtModel.add(model);
         virtModel.close();
         model.remove(statements);
     }
 
-    public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries) {
+    public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries, String component) {
         List<Statement> statements = new ArrayList<>();
         Resource graphId = ResourceFactory.createResource("urn:graph:" + queries.getQuery());
         statements.add(ResourceFactory.createStatement(
                 graphId,
                 this.usedComponent,
-                ResourceFactory.createResource("urn:qanary:" + queries.getComponent())
+                ResourceFactory.createResource("urn:qanary:" + component)
         ));
         statements.add(ResourceFactory.createStatement(
                 graphId,
                 this.hasInputQuery,
                 ResourceFactory.createStringLiteral(queries.getQuery())
         ));
+        logger.info("Items: {}", statements);
         return statements;
     }
 
