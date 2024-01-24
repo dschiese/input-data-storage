@@ -27,6 +27,7 @@ public class Service {
         model.setNsPrefix("ex", EXAMPLE_NAMESPACE);
         this.hasInputQuery = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "hasInputQuery");
         this.usedComponent = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "usedComponent");
+        this.hasAnnotationType = ResourceFactory.createProperty(EXAMPLE_NAMESPACE, "hasAnnotationType");
     }
 
     private Map<String, String> componentName2PathToLogfile = new HashMap<>();
@@ -37,6 +38,7 @@ public class Service {
     // PROPERTIES
     private Property usedComponent;
     private Property hasInputQuery;
+    private Property hasAnnotationType;
     // NAMESPACES
     private final String EXAMPLE_NAMESPACE = "http://example#";
 
@@ -187,9 +189,11 @@ public class Service {
         model.remove(statements);
     }
 
+    /* DEPRECATED
     public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries, String component) {
         List<Statement> statements = new ArrayList<>();
         Resource graphId = ResourceFactory.createResource(queries.getGraphId());
+        Resource annotationType = ResourceFactory.createResource("qa:" + queries.getAnnotationType());
         statements.add(ResourceFactory.createStatement(
                 graphId,
                 this.usedComponent,
@@ -199,6 +203,31 @@ public class Service {
                 graphId,
                 this.hasInputQuery,
                 ResourceFactory.createStringLiteral(queries.getQuery())
+        ));
+        statements.add(ResourceFactory.createStatement(
+           graphId,
+           this.hasAnnotationType,
+           annotationType
+        ));
+        logger.debug("Statements: {}", statements);
+        return statements;
+    }
+     */
+
+    public List<Statement> createStatementsFromQueryPojo(QueriesPojo queriesPojo, String component) {
+        List<Statement> statements = new ArrayList<>();
+        Resource componentResource = ResourceFactory.createResource("urn:qanary:" + component);
+        Literal query = ResourceFactory.createStringLiteral(queriesPojo.getQuery());
+        Resource annType = ResourceFactory.createResource("qa:" + queriesPojo.getAnnotationType());
+        statements.add(ResourceFactory.createStatement(
+                componentResource,
+                this.hasInputQuery,
+                query
+        ));
+        statements.add(ResourceFactory.createStatement(
+                componentResource,
+                this.hasAnnotationType,
+                annType
         ));
         logger.debug("Statements: {}", statements);
         return statements;
