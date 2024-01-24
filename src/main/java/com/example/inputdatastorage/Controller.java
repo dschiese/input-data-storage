@@ -11,15 +11,6 @@ import java.io.FileNotFoundException;
 @RestController
 public class Controller {
 
-    Controller() {}
-
-    @Autowired
-    private Service service;
-
-
-    @GetMapping("/test")
-    public ResponseEntity<?> test() throws Exception {
-        return new ResponseEntity<>(service.fetchComponentNames(), HttpStatusCode.valueOf(200));
-    }
+    public Controller() {}
 
 }
