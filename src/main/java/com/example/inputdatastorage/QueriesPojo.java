@@ -28,13 +28,14 @@ public class QueriesPojo {
     }
 
     protected String getGraphFromItem(String item) throws IOException {
+        logger.info("ITEM: {}", item);
         BufferedReader reader = new BufferedReader(new StringReader(item));
         String line = reader.readLine();
-        while(!line.startsWith("FROM")) {
+        while(!line.startsWith("GRAPH <")) {
             line = reader.readLine();
         }
-        if(line.startsWith("FROM"))
-            return line.replace("FROM <", "").replace(">", "");
+        if(line.startsWith("GRAPH <"))
+            return line.replace("GRAPH <", "").replace("> {", "");
         return null;
     }
 

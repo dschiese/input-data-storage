@@ -191,7 +191,7 @@ public class Service {
 
     public List<Statement> createStatementsFromQueryPojo(QueriesPojo queries, String component) {
         List<Statement> statements = new ArrayList<>();
-        Resource graphId = ResourceFactory.createResource("urn:graph:" + queries.getQuery());
+        Resource graphId = ResourceFactory.createResource(queries.getGraphId());
         statements.add(ResourceFactory.createStatement(
                 graphId,
                 this.usedComponent,

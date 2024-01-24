@@ -1,7 +1,7 @@
 PREFIX qa: <http://www.wdaqua.eu/qa#>
 PREFIX oa: <http://www.w3.org/ns/openannotation/core/>
 SELECT ?uri 
-FROM <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> { 
+FROM <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> { 
   ?q a qa:Question .
   ?a a qa:AnnotationOfTextRepresentation . 
   ?a oa:hasTarget ?q .
@@ -13,11 +13,11 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;
-        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_b6daf92e-e3fc-4d57-87bf-cb5b526bfe73>;
         oa:hasSelector  [
             a oa:TextPositionSelector ;
             oa:start "0"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
@@ -39,11 +39,11 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;
-        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_b6daf92e-e3fc-4d57-87bf-cb5b526bfe73>;
         oa:hasSelector  [
             a oa:TextPositionSelector ;
             oa:start "12"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
@@ -65,11 +65,11 @@ prefix oa: <http://www.w3.org/ns/openannotation/core/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT {
-GRAPH <urn:graph:7c7b2299-f160-4292-9170-44951942ed88> {
+GRAPH <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e3b> {
     ?a a qa:AnnotationOfInstance .
     ?a oa:hasTarget [
         a    oa:SpecificResource;
-        oa:hasSource    <http://localhost:8080/question/stored-question__text_aaef7f12-b67c-41d7-bfc5-95498b7d1cdb>;
+        oa:hasSource    <http://localhost:8080/question/stored-question__text_b6daf92e-e3fc-4d57-87bf-cb5b526bfe73>;
         oa:hasSelector  [
             a oa:TextPositionSelector ;
             oa:start "25"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ;
