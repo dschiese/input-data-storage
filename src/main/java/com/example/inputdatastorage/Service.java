@@ -151,7 +151,6 @@ public class Service {
             reader = new BufferedReader(new FileReader(path + "log.txt"));
             String line = reader.readLine(); // read first line
             while (line != null) {
-                logger.info(line);
                 if (line.startsWith("-------------------------------------")) {
                     queries.add(temp);
                     temp = "";
@@ -163,7 +162,6 @@ public class Service {
             deleteFileContent(path);
             return queries;
         } catch (Exception e) {
-            logger.error("debug");
             e.printStackTrace();
         }
         return null;
@@ -202,7 +200,7 @@ public class Service {
                 this.hasInputQuery,
                 ResourceFactory.createStringLiteral(queries.getQuery())
         ));
-        logger.info("Items: {}", statements);
+        logger.debug("Statements: {}", statements);
         return statements;
     }
 

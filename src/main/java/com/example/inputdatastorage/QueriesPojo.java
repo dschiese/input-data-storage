@@ -24,7 +24,6 @@ public class QueriesPojo {
     }
 
     protected String getGraphFromItem(String item) throws IOException {
-        logger.info("ITEM: {}", item);
         BufferedReader reader = new BufferedReader(new StringReader(item));
         String line = reader.readLine();
         while(line != null && !line.startsWith("FROM <")) {
