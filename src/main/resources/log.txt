@@ -1,7 +1,7 @@
 PREFIX qa: <http://www.wdaqua.eu/qa#>
 PREFIX oa: <http://www.w3.org/ns/openannotation/core/>
 SELECT ?uri 
-FROM <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e5b> {
+FROM <urn:graph:a3b8e299-4065-435e-a638-fcbc99c81e2225b> {
     ?s sd qa:AnnotationOfInstance ;
   ?q a qa:Question .
   ?a a qa:AnnotationOfTextRepresentation . 

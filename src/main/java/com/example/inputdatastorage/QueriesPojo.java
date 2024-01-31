@@ -24,6 +24,7 @@ public class QueriesPojo {
         add("AnnotationOfAnswerJSON");
         add("AnnotationOfQuestionTranslation");
         add("AnnotationOfQuestionLanguage");
+        add("AnnotationOfClass");
     }};
 
     public QueriesPojo(String item) throws IOException {
@@ -51,7 +52,9 @@ public class QueriesPojo {
 
     protected void getGraphIdFromItem(String line) {
         if(line.startsWith("FROM <")) {
-            this.graphId = line.replace("FROM <", "").replace("> {", "");
+            this.graphId = line.replace("FROM <", "").replace(">", "");
+            this.graphId.trim();
+            this.graphId = this.graphId.replace("}","");
         }
     }
 

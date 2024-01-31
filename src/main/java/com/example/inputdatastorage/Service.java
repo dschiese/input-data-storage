@@ -218,7 +218,7 @@ public class Service {
         List<Statement> statements = new ArrayList<>();
         Resource componentResource = ResourceFactory.createResource("urn:qanary:" + component);
         Literal query = ResourceFactory.createStringLiteral(queriesPojo.getQuery());
-        Resource annType = ResourceFactory.createResource("qa:" + queriesPojo.getAnnotationType());
+        Resource annType = ResourceFactory.createResource(queriesPojo.getAnnotationType()); // was "qa:" + ...
         statements.add(ResourceFactory.createStatement(
                 componentResource,
                 this.hasInputQuery,
