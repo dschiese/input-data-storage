@@ -40,11 +40,11 @@ public class QueriesPojo {
         BufferedReader reader = new BufferedReader(new StringReader(item));
         String line = reader.readLine();
         while(line != null) {
-            getGraphIdFromItem(line);
             getAnnotationTypeFromItem(line);
+            getGraphIdFromItem(line);
             line = reader.readLine();
         }
-        if(this.graphId == null && this.annotationType == null)
+        if(this.graphId == null || this.annotationType == null)
             throw new RuntimeException("Error while creating object from pass query with graphID = " + graphId + " and annotationType = " + annotationType);
         else
             logger.info("Found graphId: {} and annotationType: {}", this.graphId, this.annotationType);

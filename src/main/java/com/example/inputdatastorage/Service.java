@@ -221,13 +221,13 @@ public class Service {
         Resource annType = ResourceFactory.createResource(queriesPojo.getAnnotationType()); // was "qa:" + ...
         statements.add(ResourceFactory.createStatement(
                 componentResource,
-                this.hasInputQuery,
-                query
-        ));
-        statements.add(ResourceFactory.createStatement(
-                componentResource,
                 this.hasAnnotationType,
                 annType
+        ));
+        statements.add(ResourceFactory.createStatement(
+                annType,
+                this.hasInputQuery,
+                query
         ));
         logger.debug("Statements: {}", statements);
         return statements;
