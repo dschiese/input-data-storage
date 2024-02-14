@@ -1,0 +1,3 @@
+[submodule "Qanary-question-answering-components"]
+	path = Qanary-question-answering-components
+	url = git@github.com:WDAqua/Qanary-question-answering-components.git
