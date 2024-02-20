@@ -25,6 +25,7 @@ public class QueriesPojo {
         add("AnnotationOfQuestionTranslation");
         add("AnnotationOfQuestionLanguage");
         add("AnnotationOfClass");
+        add("AnnotationOfTextRepresentation");
     }};
 
     public QueriesPojo(String item) throws IOException {
