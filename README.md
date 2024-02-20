@@ -1,10 +1,10 @@
-# Input data storagizer
+# Input data storage
 
-This service is created for the qanary-explanations-service. It's used to read the Qanary component's logs and write them to a triplestore. 
+This service is created for the qanary-explanations-service. It reads the Qanary component's logs and writes them to a triplestore. 
 
 ## Usage
-This service is used with the included Qanary-components repository as a submodule as it's path is hard-coded yet. 
-To use this tool it is also required to use the Qanary-commons version provided in <INSERT-HERE> since this includes the log-writing to files.
+This service is used with the included Qanary-components repository as a submodule as its path is hard-coded yet. 
+To use this tool it is also required to use an adjusted QanaryTripleStoreConnector file, which is mentioned [here](https://github.com/dschiese/Qanary/commit/0bfbad4f5b0466a2a674a918f51f8439d0179de1) since this includes the log-writing to files.
 
 
 ## Prequisteries
@@ -18,4 +18,4 @@ The service finds the paths to the local components where the log files are stor
 ?annotationType ex:hasInputQuery ?inputQuery
 ```
 
-Afterwards this data can be fetched to receive component, annotationType and the query. Within the qanary-explanation-service this data can be used to create explanation for input data.
+Afterwards this data can be fetched to receive component, annotationType, and the query. Within the qanary-explanation-service this data can be used to create explanations for input data.
